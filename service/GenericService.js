@@ -1,4 +1,5 @@
 const mongoose=require("mongoose")
+const Library = require("../models/Library")
 
 async function getAll(res,Model,name){
     const result=await Model.find()
@@ -25,9 +26,16 @@ async function getById(req,res,Model,name){
 
 }
 
+async function add(res,Model,data){
+    try {
+        const result=await Model.create(data)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
 
 
-module.exports={getAll,getById}
+module.exports={getAll,getById,add}
 
 
 

@@ -41,12 +41,15 @@ router.post('/',async(req,res)=>{
     if (!name || !location){
         res.status(400).send("Please provide required fields")
     }else{
-        try{
-            const result=await Library.create({name,location})
-            res.status(200).json(result)
-        }catch(error){
-            res.status(500).json(error)
-        }
+        // try{
+        //     const result=await Library.create({name,location})
+        //     res.status(200).json(result)
+        // }catch(error){
+        //     res.status(500).json(error)
+        // }
+        Service.add(res,Library,{name,location}).catch((error)=>{
+            res.status(500).send(error+"Server Error")
+        })
     }
 
 })
