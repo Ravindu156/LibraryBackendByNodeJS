@@ -34,8 +34,36 @@ async function add(res,Model,data){
     }
 }
 
+async function deleteById(req,res,Model,name){
+    const id=req.params.id
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(400).send("Invalid ID")
+    }
+    const model=await Model.findById(id).catch((error)=>{return res.status(500).json(error)})
+    if(!model){
+        res.status(404).send(name+"not found")
+    }else{
+        try{
+            const result=await Model.deleteOne(model)
+            res.status(200).json(result)
+        }catch(error){
+            res.status(500).json(error)
+        }
+    }
 
-module.exports={getAll,getById,add}
+}
+
+async function update(res,Model,data){
+    try{
+        const result=await Model.updateOne(data)
+        res.status(200).json(result)
+    }catch(error){
+        res.status(500).json(error)
+    }
+}
+
+
+module.exports={getAll,getById,add,deleteById,update}
 
 
 

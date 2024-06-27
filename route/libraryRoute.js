@@ -54,22 +54,11 @@ router.post('/',async(req,res)=>{
 
 })
 
-router.delete('/:id',async(req,res)=>{
-    const id=req.params.id
-    const library=await Library.findById(id)
-    if(!library){
-        res.status(404).json("Library not found")
-    }else{
-        try{
-            const result=await Library.deleteOne(library)
-            res.status(200).json(result)
-
-        }catch(error){
-            res.status(500).json(error)
-        }
-    }
+router.delete('/:id',(req,res)=>{
+    Service.deleteById(req,res,Library,name).catch((error)=>{
+        res.status(500).send(error+"Server Error")
+    })
 })
-
 
 
 
